@@ -1,0 +1,51 @@
+{
+  "name": "cash-flow-mortgage-estimator",
+  "version": "1.0.0",
+  "description": "",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test-coverage": "npm test -- --coverage --watchAll=false",
+    "test-debug": "react-scripts --inspect-brk test --runInBand --no-cache",
+    "ts-check-types": "tsc --project tsconfig.json",
+    "eject": "react-scripts eject",
+    "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
+  },
+  "pre-commit": [
+    "precommit-msg",
+    "ts-check-types",
+    "test-coverage"
+  ],
+  "dependencies": {
+    "@material-ui/core": "^4.9.5",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.45",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "@types/react-native": "^0.61.22",
+    "@types/react-router-dom": "^5.1.3",
+    "@types/recharts": "^1.8.9",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.0",
+    "recharts": "^1.8.5",
+    "typescript": "^3.8.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
