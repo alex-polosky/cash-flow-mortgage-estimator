@@ -68,14 +68,17 @@ export class EstimateTotalService {
             incomeTotal.end += amount.end;
         }
 
-        // Calculate taxable amount
+        // Calculate taxable amount / deductions
         taxableTotal = { start: incomeTotal.start, end: incomeTotal.end };
+        deductions = { start: 0, end: 0 };
         for (let estimate of estimates) {
             if (estimate.taxType !== TaxType.PreTax) {
                 continue;
             }
             let amount: Range<number> = assertRange(estimate.amount);
             // #RestOfTheFuckingOwl
+            taxableTotal = addWithTotalPercentageSupport(amount, taxableTotal, incomeTotal);
+            deductions = addWithTotalPercentageSupport(amount, deductions, incomeTotal);
         }
 
         // Run through everything now
@@ -102,26 +105,25 @@ export class EstimateTotalService {
             }
         }
 
-        taxTotal = {
-            start: Math.abs(taxTotal.end),
-            end: Math.abs(taxTotal.start)
-        }
-        expenses = {
-            start: Math.abs(unaccounted.end),
-            end: Math.abs(unaccounted.start)
-        };
-        unaccounted = {
-            start: incomeTotal.end + unaccounted.end,
-            end: incomeTotal.start + unaccounted.start
-        };
-
         return {
             income: incomeTotal,
-            deductions: deductions,
+            deductions: {
+                start: Math.abs(deductions.end),
+                end: Math.abs(deductions.start)
+            },
             taxable: taxableTotal,
-            tax: taxTotal,
-            unaccounted: unaccounted,
-            expenses: expenses
+            tax: {
+                start: Math.abs(taxTotal.end),
+                end: Math.abs(taxTotal.start)
+            },
+            unaccounted: {
+                start: incomeTotal.end + unaccounted.end,
+                end: incomeTotal.start + unaccounted.start
+            },
+            expenses: {
+                start: Math.abs(unaccounted.end),
+                end: Math.abs(unaccounted.start)
+            }
         };
     }
 }
